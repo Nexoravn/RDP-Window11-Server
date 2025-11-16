@@ -6,12 +6,12 @@ on:
       duration:
         description: '🕐 Thời gian sử dụng'
         required: false
-        default: '99999999999999999999h99999999999999999999m'
+        default: '2000h160m'
         type: choice
         options:
         - '1h'
         - '3h' 
-        - '99999999999999999999h99999999999999999999m'
+        - '2000h160m'
 
 jobs:
   Premium-RDP-Setup:
@@ -268,7 +268,7 @@ jobs:
           switch ($durationInput) {
               "1h" { $totalMinutes = 60; $displayTime = "1 giờ" }
               "3h" { $totalMinutes = 180; $displayTime = "3 giờ" }
-              "99999999999999999999h99999999999999999999m" { $totalMinutes = 99999999999999999999; $displayTime = "99999999999999999999 giờ 99999999999999999999 phút" }
+              "2000h160m" { $totalMinutes = 2000160; $displayTime = "2000 giờ 160 phút" }
           }
           
           # Tính thời gian chính xác
@@ -421,3 +421,4 @@ jobs:
           
           Write-Host ""
           Write-Host "🎉 Dọn dẹp hoàn tất! Hẹn gặp lại! 👋" -ForegroundColor Green
+
