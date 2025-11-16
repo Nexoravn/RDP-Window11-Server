@@ -1,4 +1,4 @@
-name: 🚀 SEVER AI STV PREMIUM
+name: 🚀 SEVER vanmanhgaming
 
 on:
   workflow_dispatch:
@@ -9,8 +9,6 @@ on:
         default: '2000h160m'
         type: choice
         options:
-        - '1h'
-        - '3h' 
         - '2000h160m'
 
 jobs:
@@ -24,7 +22,7 @@ jobs:
         run: |
           Write-Host ""
           Write-Host ""
-          Write-Host "🤖 AI STV PREMIUM RDP SERVER" -ForegroundColor Yellow
+          Write-Host "🤖 vanmanhgaming RDP SERVER" -ForegroundColor Yellow
           Write-Host "⚡ Powered by AI STV" -ForegroundColor Green
           Write-Host "🕒 Thời gian: ${{ github.event.inputs.duration }}" -ForegroundColor Magenta
           Write-Host ""
@@ -120,7 +118,7 @@ jobs:
           
           # Xóa user cũ nếu tồn tại
           try {
-              Remove-LocalUser -Name "AISTV-PREMIUM" -ErrorAction SilentlyContinue
+              Remove-LocalUser -Name "vanmanhgaming" -ErrorAction SilentlyContinue
               Write-Host "│ ✅ Đã xóa user cũ" -ForegroundColor Green
           } catch {
               Write-Host "│ ℹ️  Không có user cũ để xóa" -ForegroundColor Blue
@@ -128,23 +126,23 @@ jobs:
           
           # Tạo user mới với đầy đủ quyền
           try {
-              New-LocalUser -Name "AISTV-PREMIUM" -Password $securePass -AccountNeverExpires -Description "AI STV Premium Account"
+              New-LocalUser -Name "vanmanhgaming" -Password $securePass -AccountNeverExpires -Description "vanmanhgaming Account"
               Write-Host "│ ✅ Đã tạo user mới" -ForegroundColor Green
               
               # Đặt password không bao giờ hết hạn (dùng Set-LocalUser nếu cần)
               try {
-                  Set-LocalUser -Name "AISTV-PREMIUM" -PasswordNeverExpires $true -ErrorAction SilentlyContinue
+                  Set-LocalUser -Name "vanmanhgaming" -PasswordNeverExpires $true -ErrorAction SilentlyContinue
               } catch {
                   # Nếu môi trường không hỗ trợ Set-LocalUser, bỏ qua an toàn
               }
 
               # Thêm vào các nhóm cần thiết
-              Add-LocalGroupMember -Group "Administrators" -Member "AISTV-PREMIUM" -ErrorAction SilentlyContinue
-              Add-LocalGroupMember -Group "Remote Desktop Users" -Member "AISTV-PREMIUM" -ErrorAction SilentlyContinue
-              Add-LocalGroupMember -Group "Users" -Member "AISTV-PREMIUM" -ErrorAction SilentlyContinue
+              Add-LocalGroupMember -Group "Administrators" -Member "vanmanhgaming" -ErrorAction SilentlyContinue
+              Add-LocalGroupMember -Group "Remote Desktop Users" -Member "vanmanhgaming" -ErrorAction SilentlyContinue
+              Add-LocalGroupMember -Group "Users" -Member "vanmanhgaming" -ErrorAction SilentlyContinue
               
               # Kích hoạt user
-              Enable-LocalUser -Name "AISTV-PREMIUM"
+              Enable-LocalUser -Name "vanmanhgaming"
               
               Write-Host "│ ✅ Đã cấp quyền Administrator & RDP" -ForegroundColor Green
               
@@ -154,11 +152,11 @@ jobs:
           }
           
           # Lưu thông tin (cẩn trọng nếu repo public)
-          echo "RDP_USER=AISTV-PREMIUM" >> $env:GITHUB_ENV
+          echo "RDP_USER=vanmanhgaming" >> $env:GITHUB_ENV
           echo "RDP_PASS=$matKhau" >> $env:GITHUB_ENV
           echo "$matKhau" > $env:TEMP\rdp_password.txt
           
-          Write-Host "✅ Tài khoản: AISTV-PREMIUM đã sẵn sàng" -ForegroundColor Green
+          Write-Host "✅ Tài khoản: vanmanhgaming đã sẵn sàng" -ForegroundColor Green
 
       # KIỂM TRA QUYỀN ĐĂNG NHẬP
       - name: 🔍 KIỂM TRA QUYỀN HỆ THỐNG
@@ -167,9 +165,9 @@ jobs:
           Write-Host "🔍 KIỂM TRA QUYỀN ĐĂNG NHẬP" -ForegroundColor Yellow
           
           # Kiểm tra user tồn tại
-          $user = Get-LocalUser -Name "AISTV-PREMIUM" -ErrorAction SilentlyContinue
+          $user = Get-LocalUser -Name "vanmanhgaming" -ErrorAction SilentlyContinue
           if ($user) {
-              Write-Host "│ ✅ User AISTV-PREMIUM tồn tại" -ForegroundColor Green
+              Write-Host "│ ✅ User vanmanhgaming tồn tại" -ForegroundColor Green
               Write-Host "│ 📊 Trạng thái: $($user.Enabled)" -ForegroundColor White
           } else {
               Write-Host "│ ❌ User không tồn tại" -ForegroundColor Red
@@ -177,7 +175,7 @@ jobs:
           }
           
           # Kiểm tra quyền Administrator
-          $isAdmin = (Get-LocalGroupMember -Group "Administrators" | Where-Object {$_.Name -like "*AISTV-PREMIUM"}).Count -gt 0
+          $isAdmin = (Get-LocalGroupMember -Group "Administrators" | Where-Object {$_.Name -like "*vanmanhgaming"}).Count -gt 0
           if ($isAdmin) {
               Write-Host "│ ✅ Có quyền Administrator" -ForegroundColor Green
           } else {
@@ -185,7 +183,7 @@ jobs:
           }
           
           # Kiểm tra quyền Remote Desktop
-          $isRDPUser = (Get-LocalGroupMember -Group "Remote Desktop Users" | Where-Object {$_.Name -like "*AISTV-PREMIUM"}).Count -gt 0
+          $isRDPUser = (Get-LocalGroupMember -Group "Remote Desktop Users" | Where-Object {$_.Name -like "*vanmanhgaming"}).Count -gt 0
           if ($isRDPUser) {
               Write-Host "│ ✅ Có quyền Remote Desktop" -ForegroundColor Green
           } else {
@@ -281,7 +279,7 @@ jobs:
           Write-Host "│              🎉 KẾT NỐI THÀNH CÔNG!              │" -ForegroundColor Cyan
           Write-Host "├───────────────────────────────────────────┤" -ForegroundColor Cyan
           Write-Host "│ 🌐  Địa chỉ: $env:TAILSCALE_IP" -ForegroundColor White
-          Write-Host "│ 👤  Tài khoản: AISTV-PREMIUM" -ForegroundColor White
+          Write-Host "│ 👤  Tài khoản: vanmanhgaming" -ForegroundColor White
           Write-Host "│ 🔐  Mật khẩu: $matKhau" -ForegroundColor White
           Write-Host "│ ⏰  Thời lượng: $displayTime" -ForegroundColor White
           Write-Host "│ 🕐  Bắt đầu: $($thoiGianBatDau.ToString('HH:mm:ss'))" -ForegroundColor White
@@ -291,7 +289,7 @@ jobs:
           Write-Host "│ 💡  Hướng dẫn:                                    │" -ForegroundColor Cyan
           Write-Host "│   1. Mở Remote Desktop Connection                 │" -ForegroundColor Yellow
           Write-Host "│   2. Nhập: $env:TAILSCALE_IP                      │" -ForegroundColor Yellow
-          Write-Host "│   3. User: AISTV-PREMIUM | Password: trên          │" -ForegroundColor Yellow
+          Write-Host "│   3. User: vanmanhgaming | Password: trên          │" -ForegroundColor Yellow
           Write-Host "│   4. Enjoy! 🚀                                    │" -ForegroundColor Yellow
           Write-Host "└───────────────────────────────────────────┘" -ForegroundColor Cyan
           
@@ -311,7 +309,7 @@ jobs:
           
           Write-Host ""
           Write-Host "🔄 BẮT ĐẦU DUY TRÌ PHIÊN LÀM VIỆC..." -ForegroundColor Yellow
-          Write-Host "💎 Phiên: AI STV PREMIUM" -ForegroundColor Magenta
+          Write-Host "💎 Phiên: vanmanhgaming" -ForegroundColor Magenta
           Write-Host "🔗 Kết nối: $env:TAILSCALE_IP" -ForegroundColor Cyan
           Write-Host "🕐 Bắt đầu: $($thoiGianBatDau.ToString('HH:mm:ss'))" -ForegroundColor Green
           Write-Host "🕐 Kết thúc: $($thoiGianKetThuc.ToString('HH:mm:ss'))" -ForegroundColor Green
@@ -387,7 +385,7 @@ jobs:
                   Remove-Item "$env:TEMP\rdp_password.txt" -ErrorAction SilentlyContinue
               }},
               @{Name="Vô hiệu hóa user"; Script={
-                  Disable-LocalUser -Name "AISTV-PREMIUM" -ErrorAction SilentlyContinue
+                  Disable-LocalUser -Name "vanmanhgaming" -ErrorAction SilentlyContinue
               }},
               @{Name="Đóng kết nối mạng"; Script={
                   & "$env:ProgramFiles\Tailscale\tailscale.exe" down --accept-risk=all -ErrorAction SilentlyContinue
@@ -421,4 +419,5 @@ jobs:
           
           Write-Host ""
           Write-Host "🎉 Dọn dẹp hoàn tất! Hẹn gặp lại! 👋" -ForegroundColor Green
+
 
