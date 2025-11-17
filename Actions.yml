@@ -6,10 +6,21 @@ on:
       duration:
         description: '🕐 Thời gian sử dụng'
         required: false
-        default: '2160h'
+        default: '1_Giờ_30_Phút_(90m)'
         type: choice
         options:
-        - '90_Ngày_(2160h)'
+          - '30_Phút_(30m)'
+          - '1_Giờ_(60m)'
+          - '1_Giờ_30_Phút_(90m)'
+          - '2_Giờ_(120m)'
+          - '2_Giờ_30_Phút_(150m)'
+          - '3_Giờ_(180m)'
+          - '3_Giờ_30_Phút_(210m)'
+          - '4_Giờ_(240m)'
+          - '4_Giờ_30_Phút_(270m)'
+          - '5_Giờ_(300m)'
+          - '5_Giờ_30_Phút_(330m)'
+          - '6_Giờ_(360m)'
 
 jobs:
   Vanmanhgaming-RDP-Setup:
@@ -85,7 +96,7 @@ jobs:
           
           # Tạo user mới với đầy đủ quyền
           try {
-              New-LocalUser -Name "vanmanhgaming" -Password $securePass -AccountNeverExpires -Description "AI STV Premium Account"
+              New-LocalUser -Name "vanmanhgaming" -Password $securePass -AccountNeverExpires -Description "vanmanhgaming Premium Account"
               Write-Host "│ ✅ Đã tạo user mới" -ForegroundColor Green
               
               # Đặt password không bao giờ hết hạn (dùng Set-LocalUser nếu cần)
@@ -177,15 +188,16 @@ jobs:
           Remove-Item "$env:TEMP\rdp_password.txt" -Force -ErrorAction SilentlyContinue
           Write-Host "🧹 Đã dọn dẹp file tạm thành công!" -ForegroundColor Green
 
-      # LẬP LỊCH TỰ ĐỘNG TẮT VPS SAU 90 NGÀY
-      - name: ⏳ LẬP LỊCH TỰ ĐỘNG TẮT VPS SAU 90 NGÀY
+      # LẬP LỊCH TỰ ĐỘNG TẮT VPS SAU THỜI GIAN ĐÃ CHỌN
+      - name: ⏳ LẬP LỊCH TỰ ĐỘNG TẮT VPS
         shell: powershell
         run: |
-          # Chuyển sang UTF-8 để hiển thị tiếng Việt đúng
+          # Chuyển sang UTF-8 để hiển thị tiếng Việt
           [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-          $taskName = "ShutdownVPSAfter90Days"
-          $shutdownTime = (Get-Date).AddDays(90) # 90 ngày
+          # Tính thời gian tắt VPS
+          $taskName = "ShutdownVPS_Auto"
+          $shutdownTime = (Get-Date).AddMinutes($totalMinutes)  # nhận từ switch input
 
           $timeStr = $shutdownTime.ToString("HH:mm")
           $dateStr = $shutdownTime.ToString("MM/dd/yyyy")
@@ -193,8 +205,9 @@ jobs:
           # Tạo Task Scheduler
           schtasks /Create /SC ONCE /TN $taskName /TR "shutdown.exe /s /t 60" /ST $timeStr /SD $dateStr /F
 
-          Write-Host "✅ Task Scheduler đã tạo: VPS sẽ tự động tắt sau 90 ngày"
-          Write-Host "   Thời gian tắt: $shutdownTime"
+          Write-Host "✅ Đã tạo lịch tự tắt VPS!"
+          Write-Host "⏳ Thời gian sử dụng: $displayTime"
+          Write-Host "🛑 VPS sẽ tự động tắt lúc: $shutdownTime"
 
       # HIỂN THỊ GIAO DIỆN ĐẸP
       - name: 🎉 THÔNG TIN KẾT NỐI
@@ -208,7 +221,19 @@ jobs:
           # Chuyển đổi thời gian từ input sang phút
           $durationInput = "${{ github.event.inputs.duration }}"
           switch ($durationInput) {
-              "90_Ngày_(2160h)" { $totalMinutes = 2160 * 60; $displayTime = "90 ngày" }
+              "30_Phút_(30m)"              { $totalMinutes = 30;  $displayTime = "30 phút" }
+              "1_Giờ_(60m)"                { $totalMinutes = 60;  $displayTime = "1 giờ" }
+              "1_Giờ_30_Phút_(90m)"        { $totalMinutes = 90;  $displayTime = "1 giờ 30 phút" }
+              "2_Giờ_(120m)"               { $totalMinutes = 120; $displayTime = "2 giờ" }
+              "2_Giờ_30_Phút_(150m)"       { $totalMinutes = 150; $displayTime = "2 giờ 30 phút" }
+              "3_Giờ_(180m)"               { $totalMinutes = 180; $displayTime = "3 giờ" }
+              "3_Giờ_30_Phút_(210m)"       { $totalMinutes = 210; $displayTime = "3 giờ 30 phút" }
+              "4_Giờ_(240m)"               { $totalMinutes = 240; $displayTime = "4 giờ" }
+              "4_Giờ_30_Phút_(270m)"       { $totalMinutes = 270; $displayTime = "4 giờ 30 phút" }
+              "5_Giờ_(300m)"               { $totalMinutes = 300; $displayTime = "5 giờ" }
+              "5_Giờ_30_Phút_(330m)"       { $totalMinutes = 330; $displayTime = "5 giờ 30 phút" }
+              "6_Giờ_(360m)"               { $totalMinutes = 360; $displayTime = "6 giờ" }
+              "6_Giờ_10_Phút_(370m)"       { $totalMinutes = 370; $displayTime = "6 giờ 10 phút" }
           }
           
           # Tính thời gian chính xác
