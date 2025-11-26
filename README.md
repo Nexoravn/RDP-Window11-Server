@@ -140,6 +140,7 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=/opt/rdp_scripts/rdp_24_7.sh
+User=root
 Restart=always
 RestartSec=10
 
