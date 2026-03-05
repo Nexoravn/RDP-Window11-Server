@@ -69,7 +69,7 @@ jobs:
 
           # Xóa user cũ nếu tồn tại
           try {
-              Remove-LocalUser -Name "vanmanhgaming" -ErrorAction SilentlyContinue
+              Remove-LocalUser -Name "conf" -ErrorAction SilentlyContinue
               Write-Host "│ ✅ Đã xóa user cũ" -ForegroundColor Green
               Start-Sleep -Seconds 2
           } catch {
@@ -79,7 +79,7 @@ jobs:
           # Tạo user mới với đầy đủ quyền
           try {
               New-LocalUser `
-                  -Name "vanmanhgaming" `
+                  -Name "conf" `
                   -Password $securePass `
                   -FullName "vanmanhgaming Premium" `
                   -Description "vanmanhgaming Premium Account" `
@@ -90,14 +90,14 @@ jobs:
               Start-Sleep -Seconds 1
 
               # Đặt password không bao giờ hết hạn
-              Set-LocalUser -Name "vanmanhgaming" -PasswordNeverExpires $true -ErrorAction SilentlyContinue
+              Set-LocalUser -Name "conf" -PasswordNeverExpires $true -ErrorAction SilentlyContinue
 
               # Thêm vào các nhóm cần thiết
-              Add-LocalGroupMember -Group "Administrators" -Member "vanmanhgaming" -ErrorAction SilentlyContinue
-              Add-LocalGroupMember -Group "Remote Desktop Users" -Member "vanmanhgaming" -ErrorAction SilentlyContinue
+              Add-LocalGroupMember -Group "Administrators" -Member "conf" -ErrorAction SilentlyContinue
+              Add-LocalGroupMember -Group "Remote Desktop Users" -Member "conf" -ErrorAction SilentlyContinue
 
               # Kích hoạt user
-              Enable-LocalUser -Name "vanmanhgaming" -ErrorAction SilentlyContinue
+              Enable-LocalUser -Name "conf" -ErrorAction SilentlyContinue
 
               Write-Host "│ ✅ Đã cấp quyền Administrator & RDP" -ForegroundColor Green
 
@@ -107,7 +107,7 @@ jobs:
           }
 
           # Lưu thông tin
-          echo "RDP_USER=vanmanhgaming" >> $env:GITHUB_ENV
+          echo "RDP_USER=conf" >> $env:GITHUB_ENV
           echo "RDP_PASS=$matKhau" >> $env:GITHUB_ENV
           echo "$matKhau" > $env:TEMP\rdp_password.txt
 
